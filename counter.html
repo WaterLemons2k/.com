@@ -1,0 +1,19 @@
+<html>
+    <head>
+    <meta charset="utf-8">
+    <title>计数器</title>
+    </head>
+    <body>
+    <input type="button" value="+" onclick="add()">
+    <span id="number" value="0">0</span>
+    <input type="button" value="-" onclick="reduce()">
+    </body> 
+    <script>    
+    function add() {
+        document.getElementById("number").innerText = parseInt(document.getElementById("number").innerText)+1
+    }
+    function reduce() {
+        document.getElementById("number").innerText = parseInt(document.getElementById("number").innerText)-1
+    }   
+    </script>
+    </html>
