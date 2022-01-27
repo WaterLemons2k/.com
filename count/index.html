@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>秒表</title>
+    </head>
+    <body>
+        
+        <div id="container">
+            <p id="time">00:00</p>
+        </div>
+
+        <script>
+            
+            //存储秒和分钟
+            var second = 0;
+            var minute = 0;
+            //存储定时器
+            var int;
+
+            function timer(){  
+                second += 1;  //秒加1
+                if(second > 59){
+                    second = 0;  //当秒大于59时，秒数归零
+                    minute += 1;  //分钟加1
+                }
+                
+                if(minute < 10){
+                    document.getElementById('time').innerHTML = '0' + minute + ":0" + second;
+                    if(second < 10){
+                        document.getElementById('time').innerHTML = '0' + minute + ":0" + second;
+                    }else{
+                        document.getElementById('time').innerHTML = '0' + minute + ":" + second;
+                    }
+                }else{
+                    document.getElementById('time').innerHTML = minute + ":0" + second;
+                    if(second < 10){
+                        document.getElementById('time').innerHTML = minute + ":0" + second;
+                    }else{
+                        document.getElementById('time').innerHTML = minute + ":" + second;
+                    }
+                }
+            }
+
+                int = setInterval(timer,1000);
+                timer();
+
+
+        </script>
+    </body>
+</html>
