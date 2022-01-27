@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <link rel="icon" href="favicon.ico">
     <title>计数器</title>
+    </head>
+    <body>
     <script>
     function add() {
     var number = document.getElementById("number");
@@ -14,10 +16,8 @@
     number.value=parseInt(number.value)-1;
     }
     </script>
-    </head>
-    <body>
     <input type="button" value="+" onclick="add()">
-    <input id="number" type="number" style="width: 405px;" value="0" />
+    <input id="number" type="number" value="0" />
     <input type="button" value="-" onclick="reduce()">
     </body>
     </html>
