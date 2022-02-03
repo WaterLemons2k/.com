@@ -8,16 +8,14 @@
     <body>
     <script>
     function add() {
-    var number = document.getElementById("number");
-    number.value=parseInt(number.value)+1;
+    var number = document.getElementById("number").innerText =parseInt(document.getElementById("number").innerText)+1
     }
     function reduce() {
-    var number = document.getElementById("number");
-    number.value=parseInt(number.value)-1;
+    var number = document.getElementById("number").innerText =parseInt(document.getElementById("number").innerText)-1
     }
     </script>
     <input type="button" value="-" onclick="reduce()">
-    <input id="number" type="number" value="0" />
+    <span contenteditable="true" id="number">0</span> 
     <input type="button" value="+" onclick="add()">
     </body>
     </html>
