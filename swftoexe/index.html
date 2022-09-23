@@ -1,0 +1,675 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="width=device-width">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>无限制的SWF、Flash转EXE工具</title>
+<meta name="description" content="此免费在线应用允许您立即在您的浏览器中将任意flash SWF文件转换为EXE(standalone flash projector)文件。此转换器不会保存或分享您选择的文件。 它仅在本地工作而无需通过服务器。 您可以立即实时转换文件。">
+<meta name="keywords" content="swf转exe, swf转应用, 在线swf转exe, flash转exe, standalone flash projector">
+
+<meta property="og:title" content="无限制的SWF、Flash转EXE工具"> 
+<meta property="og:description" content="此免费在线应用允许您立即在您的浏览器中将任意flash SWF文件转换为EXE(standalone flash projector)文件。 此转换器不会保存或分享您选择的文件。 它仅在本地工作而无需通过服务器。 您可以立即实时转换文件。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="//pdfrecover.herokuapp.com/swftoexe/">
+<meta property="og:image" content="//pdfrecover.herokuapp.com/swftoexe/img/logo128.png">
+
+<link rel="shortcut icon" href="favicon.ico">
+
+
+<script src="common.js" type="text/javascript"></script>
+<script src="jszip3.1.5.min.js"></script>
+<script>
+var gadb=false;
+window.URL=(window.URL || window.webkitURL);
+var ischrome=false;
+var isgecko=false;
+var isopera=false;
+//var ismsie=false;
+if (navigator.appName=="Netscape"){
+	if (navigator.userAgent.indexOf("Chrome")>=0) ischrome=true;
+	if (navigator.userAgent.indexOf("Gecko")>=0) isgecko=true;
+} else {
+	if (navigator.userAgent.indexOf("Opera")>=0) isopera=true;
+	//if (navigator.userAgent.indexOf("MSIE")>=0) ismsie=true;
+}
+var isedge=false;
+if (navigator.userAgent.indexOf("Edge")>=0){ischrome=false;isedge=true;}
+
+function proc_saveopt(){
+	var b=[];
+	var c;
+	var obj=_getid("optcontainer");
+	var a=obj.getElementsByTagName('INPUT');
+	for(var i = 0; i < a.length; i++){    
+		if(a[i].type=='checkbox'){
+			c={};
+			c.name=a[i].name;
+			c.type=a[i].type;
+			c.checked=a[i].checked;
+			b.push(c);
+		}else if(a[i].type=='text'){
+			c={};
+			c.name=a[i].name;
+			c.type=a[i].type;
+			c.value=a[i].value;
+			b.push(c);
+		}
+	}
+	function find(name1,name2){
+		var a=obj.getElementsByTagName(name1);
+		var s;
+		for(var i = 0; i < a.length; i++){    
+			if(a[i].form && a[i].form.name){
+				s=a[i].value || '';
+				if(s.length>256*1024)continue;
+				c={};
+				c.name=a[i].name;
+				c.type=name2;
+				c.value=s;
+				b.push(c);
+			}
+		}
+	}
+	find('SELECT','select');
+	find('TEXTAREA','textarea');
+
+	if(window.JSON) setstorage('swfe_c_opt',JSON.stringify(b));
+}
+function proc_loadopt(){
+	var s=getstorage('swfe_c_opt');
+	var b=[];
+	try{
+		b=JSON.parse(s);
+	}catch(err){
+		b=[];
+	}
+	if(!b) b=[];
+
+	var c;
+	for(var i = 0; i < b.length; i++){    
+		if(b[i].type=='checkbox'){
+			c=document.optcontainer[b[i].name];
+			if(c) c.checked=b[i].checked;
+		}else if(b[i].type=='select' || b[i].type=='text' || b[i].type=='textarea'){
+			c=document.optcontainer[b[i].name];
+			if(c) c.value=b[i].value;
+		}
+	}
+	var a=_getid("optcontainer").getElementsByTagName('*');
+	for(var i = 0; i < a.length; i++){    
+		if(a[i].tagName=='SELECT'){
+			a[i].onchange=proc_saveopt;
+		}else if(a[i].type=='checkbox'){
+			a[i].onclick=proc_saveopt;
+		}
+	}
+}
+
+function init(){
+	window.onunload=function(){
+		proc_saveopt();
+	}	
+}
+</script>
+</head>
+<body onload="init()">
+
+
+	<h1><a id="toptitle" href="/swftoexe" title="回到主页">无限制的SWF、Flash转EXE工具</span></a></h1>
+
+<table width=760>
+此免费在线应用允许您立即在您的浏览器中将任意flash SWF文件转换为EXE(standalone flash projector)文件。
+standalone flash projector将Flash Player嵌入到EXE文件中，这意味即使您没有安装Flash Player， 您也应该可以观看SWF游戏、电影。<br>
+如果您曾经想要将SWF文件转换为一个EXE文件, 这是一款完美的swf转exe转换器。非常易用并且转换得很好。<br>
+此转换器不会保存或分享您选择的文件。它仅在本地工作而无需通过服务器。您可以立即实时转换文件。<br>
+您可以从本地计算机打开SWF文件。
+</table>
+
+
+
+<div>
+
+<span>1. 选择Flash Projector文件</span>
+<table ><tr>
+<td><select id="projector">
+	<option value="flashplayer11_3r300_273_win_sa_upx.exe">flashplayer11_3r300_273_win_sa_upx.exe (3.3M)
+	<option value="flashplayer10_3r183_90_win_sa_upx.exe">flashplayer10_3r183_90_win_sa_upx.exe (2.5M)
+	<option value="flashplayer9_r277_win_sa_upx.exe">flashplayer9_r277_win_sa_upx.exe (1.5M)
+</select>
+</table>
+
+<span">2. 选择SWF文件</span>
+<div id="divopen">
+<table><tr>
+<td><div id="dfile1" ></div>
+<td>拖拽文件到此页。
+</table>
+<script>document.getElementById("dfile1").innerHTML='<input type="file" accept=".swf" id="fileload1" name="files[]">';</script>
+</div>
+
+<table id="attachments" style="display:none"><tr><td align=left>
+</table>
+
+</div>
+
+<tr><td align=left>
+	<div id="downlink"></div>
+	<div id="msg"></div>
+
+<tr><td>
+	<form id="optcontainer" name="optcontainer" style="display:inline;border:0px dashed #0860A8;padding:0px" onsubmit="return false"></form>
+<tr><td align=center>	
+	<button id="btn_upload" onclick="proc_convert()" style="font-size:20px;">转换SWF文件为EXE</button> 
+	<button id="btn_remove2" onclick="proc_remove()" disabled=true>从列表中移除</button> 
+<tr><td>
+<div id="downlink2"></div>
+
+<script>
+function proc_remove(){
+	var a=_getid("attachment");
+	var b;
+	for(var i=a.options.length-1;i>=0;i--){
+		if(a.options[i].selected){
+			b=cl_files[a.options[i].value];
+			if(b){
+				if(b.blob) b.blob='';
+				cl_files[a.options[i].value]='';
+			}
+		}
+	}
+	var arr=[];
+	for(var i = 0; i <= cl_files.length-1; i++){
+		if(cl_files[i]) arr.push(cl_files[i]);
+	}
+	cl_files=arr;
+	cl_display();
+}
+var cl_files=[];
+function cl_clear(){
+	for(var i = 0; i <= cl_files.length-1; i++){
+		if(cl_files[i].blob) cl_files[i].blob='';
+	}
+	cl_files=[];
+}
+function cl_error(s){
+}
+
+
+function handleFileSelect(files){
+	if(!files || files.length==0) return;		
+	
+	cl_clear();
+	function go(idx){
+		if(idx>files.length-1){
+			cl_display();
+			return;
+		}
+		var f=files[idx];
+		if(!f)return;
+		var a={};
+		a.service='本地文件';
+		a.filename=f.name;
+		a.link='';
+		a.size=f.size;
+		a.f=f;
+		cl_files.push(a);		
+		go(idx+1);
+	}
+	go(0);
+}
+
+function cl_display(){
+	var a=_getid("attachment");
+	for(var i=a.options.length-1;i>=0;i--) a.remove(i);
+	_getid("desc").innerHTML='';
+
+	if(cl_files.length==0){
+		//alert('No selected file');
+		return;
+	}
+
+	var obj2=_getid("attachment");
+	var d,s;
+	for(var i = 0; i <= cl_files.length-1; i++){
+		d=cl_files[i];
+		var c=document.createElement("option");
+		if(d.link){
+			s=d.filename+getsize(d.size)+' - '+d.service;
+		}else{
+			if(d.f) s='';
+			else s='[无下载链接] ';
+			s+=d.filename+' - '+d.service;
+		}
+		c.value=i;
+		c.appendChild(document.createTextNode(s));		 
+		obj2.appendChild(c);			
+	}
+
+	if(!u_working && cl_files.length>0){
+		obj2.selectedIndex=0;
+		attachment_onchange();
+	}
+	_getid('attachments').style.display='';
+	_getid('btn_remove2').disabled=false;
+}
+
+var swfblob, projectorblob, projectorblob2, projectorblobname;
+var gresp, gbloburl, gbloburl2, u_working;
+
+function toBytesInt32 (num) {
+    arr = new ArrayBuffer(4); // an Int32 takes 4 bytes
+    view = new DataView(arr);
+    view.setUint32(0, num, true); // byteOffset = 0; litteEndian = false
+    return arr;
+}
+function stringToByteArray(str) {
+    var array = new (window.Uint8Array !== void 0 ? Uint8Array : Array)(str.length);
+    var i;
+    var il;
+    for (i = 0, il = str.length; i < il; ++i) {
+        array[i] = str.charCodeAt(i) & 0xff;
+    }
+    return array;
+}
+
+function proc_download(url, filesize, callback, title){
+	var resp={};
+	function end(){
+		if(callback) callback(resp);
+	}
+	gd_lastprogress=(new Date()).getTime();	
+		try{
+			var xhr = new XMLHttpRequest();
+			var c=_getid('u_cancel');
+			if(c){
+				c.style.display='';
+				c.onclick=function(){
+					xhr.abort();
+					resp.error="被用户取消。";
+					resp.canceled=true;
+					end();
+					return false;
+				}
+			}
+			xhr.open('GET', url.split("&access_token=")[0]);
+			xhr.responseType = 'blob'; //arraybuffer					
+			xhr.onprogress=function(event){
+				if(gd_lastprogress){
+					var elaspetime = new Date();
+					var dt=(elaspetime.getTime()-gd_lastprogress);
+					if(dt<300)return;
+					gd_lastprogress=elaspetime.getTime();
+				}
+				var a=event;
+				if(!a)return;
+				var total=a.totalSize || filesize || a.total  || 0;
+				var current=a.position || a.loaded  || 0;		
+				var c=_getid('u_progress');
+				if(c){
+					var s='下载中... ('+number_format(current)+'/'+number_format(total)+')';
+					if(title) s=title+' '+s;
+					c.innerHTML=s;
+				}
+			};					
+			if(url.split("&access_token=")[1]) xhr.setRequestHeader('Authorization', 'Bearer ' + url.split("&access_token=")[1]);
+		    xhr.onload = function(){
+				if(this.status == 200 || this.status == 206){
+					resp.blob=this.response;
+				}else{
+					resp.error="错误 (状态) " + this.status + "("+this.statusText+") 接收文件时发生错误。";
+				}
+				end();
+			};
+			xhr.onerror = function(e){      
+				resp.error="Error " + e.target.status + " 接收文件时发生错误。";
+				end();
+			};
+			xhr.send();
+		}catch(err){
+			resp.error=err+' 或不支持此浏览器。请升级您的浏览器。';
+			end();
+		}
+}
+
+function proc_convert(){
+	if(gadb){alert('请禁用广告拦截以免费使用。');return;}
+	if(!window.URL){
+		alert("不支持此浏览器。");return;
+	}
+	if(u_working){
+		alert("它在工作。请稍后重试。");return;
+	}
+	if(cl_files.length==0){
+		alert('请选择SWF文件。');
+		return;
+	}
+	
+	var cresp, cidx;
+	var zip = new JSZip();
+
+	_getid("downlink").innerHTML="<table><tr><td><a href='#' id='u_cancel'>取消</a>&nbsp; <td><img src='wait.gif' align='absmiddle'><td><div id='u_progress'>处理中...</div></table>";
+	_getid("downlink2").innerHTML='';
+	u_working=true;
+
+	function end(){
+		u_working=false;
+		_getid("downlink").innerHTML="";
+	}
+	function error(s){
+		alert(cresp.filename+'\n'+s);
+	}
+	function progress(s){
+		var c=_getid('u_progress');
+		if(c) c.innerHTML='['+(cidx+1)+'/'+cl_files.length+'] '+henc(s);		
+	}
+
+	var swfblob, pblob;
+	if(projectorblob2){
+		pblob=projectorblob2;
+	}else{
+		var downurl=_getid('projector').value;
+		if(!downurl) downurl='flashplayer11_3r300_273_win_sa_upx.exe';
+		if(projectorblobname!=downurl) projectorblob='';
+		if(projectorblob){
+			pblob=projectorblob;
+		}else{
+			//proc_download("bin/"+downurl, '', function(resp){
+			proc_download(""+downurl, '', function(resp){
+				end();
+				if(resp.error){
+					if(resp.canceled){
+						_getid("downlink").innerHTML=henc(resp.error);
+					}else{
+						alert(resp.error);
+					}
+				}else if(resp.blob){
+					projectorblob=resp.blob;
+					projectorblobname=downurl;
+					proc_convert();
+				}else{
+					alert('未知错误。');
+				}
+			},'Projector');
+			return;			
+		}
+	}
+	if(pblob.size==0){
+		alert('Flash Projector文件大小为0或找不到文件。');
+		end();
+		return;
+	}
+
+	function make(){
+		setTimeout(function(){
+			make2();
+		},200);
+	}
+	function make2(){
+		if(swfblob.size==0){
+			error('Flash文件大小为0或找不到文件。');
+			cidx++;go();
+			return;
+		}		
+		var a=toBytesInt32(4195497046);
+		var flag=new Uint8Array(a); 
+		//console.log(flag);
+
+		var a=toBytesInt32(swfblob.size);
+		var size=new Uint8Array(a); 
+		//console.log(size);
+	
+		var fname=getfilename(cresp.filename)+'.exe';
+		fname=fname.replace(/[\\\\/:?*\"|<>]/g,'-');
+		var blob=new Blob([pblob, swfblob, flag, size], {type: 'application/x-msdos-program'});
+		//if(gbloburl) window.URL.revokeObjectURL(gbloburl);
+		//gbloburl=window.URL.createObjectURL(blob);
+
+		var fileReader = new FileReader();
+		fileReader.onload = function(event) {
+			var data=new Uint8Array(event.target.result); 		
+			zip.file(fname, data, {binary: true});
+			cidx++;go();
+		}
+		fileReader.onerror = function(){
+			cidx++;go();
+		}
+		fileReader.readAsArrayBuffer(blob);
+	}
+
+	function go(){
+		if(cidx>cl_files.length-1){
+			function go(blob2){
+				if(gbloburl2) window.URL.revokeObjectURL(gbloburl2);
+				gbloburl2=window.URL.createObjectURL(blob2);
+				var fname2;
+					fname2=getfilename(cresp.filename)+'.zip';
+
+				end();		
+				_getid('downlink').innerHTML='<a href="#" id="adown" target="_blank">保存到电脑</a> '+getsize(blob2.size)+' &nbsp;</a>';
+				var link=_getid('adown');
+				if(link){
+					link.title=fname2;
+					if(navigator.msSaveBlob){
+						link.target="";
+						link.href="#";			
+						link.download=fname2;
+						link.onclick=function(){
+							navigator.msSaveBlob(blob2, fname2);
+							return false;
+						}
+					}else{
+						link.download=fname2;
+						link.href=gbloburl2;
+					}
+				}		
+			}
+			try{
+				zip.generateAsync({type:"blob", compression:"STORE"}).then(function(blob) { //DEFLATE
+					go(blob);
+				});			
+			}catch(e){
+				alert('不支持此浏览器。');
+				end();
+			 }
+			return;
+		}
+		cresp=cl_files[cidx];
+		progress(cresp.filename);
+		if(cresp.f){
+			swfblob=cresp.f;
+			make();
+		}else{
+			if(cresp.blob){
+				swfblob=cresp.blob;
+				make();
+				return;
+			}
+			var downurl=cresp.link3 || cresp.link;
+			proc_download(downurl, cresp.size, function(resp){
+				if(resp.error){
+					if(resp.canceled){
+						end();
+						_getid("downlink").innerHTML=henc(resp.error);
+					}else{
+						error(resp.error);
+						cidx++;go();
+					}
+				}else if(resp.blob){
+					swfblob=resp.blob;
+					cresp.blob=resp.blob;
+					make();
+				}else{
+					error('未知错误。');
+					cidx++;go();
+				}
+			},'SWF');
+		}
+	}
+	cidx=0;
+	go();
+}
+
+function attachment_onchange(){
+	if(u_working) return;
+	var a=_getid("attachment");
+	for(var i=a.options.length-1;i>=0;i--){
+		if(a.options[i].selected){
+			var d=cl_files[a.options[i].value];
+			if(!d)return;
+			gresp=d;
+				var s='';
+				//if(d.service=="Google Drive" || d.f) s+='<a href="#" onclick="proc_gview();return false" title="View this file">View</a>&nbsp; ';
+				if(d.link){
+					s+='<a id="slink" href="'+(d.webContentLink || d.link)+'" target="_blank" title="手动下载并保存文件">'+henc(d.filename)+'</a>';
+				}else{
+					s+='<font color=black>'+henc(d.filename)+'</font>';
+				}
+				s+=getsize(d.size)+' - '+d.service;
+				_getid("desc").innerHTML=s;
+				var a=_getid('slink');
+				if(a) a.download=d.filename;
+			break;
+		}
+	}
+}
+
+function init_load(){
+	//proc_loadopt();
+	var holder = document;
+	holder.ondragover = function(e){ 
+		_getid('divopen').className = 'hover'; 
+		try{var ua=navigator.userAgent;
+			if(ua && ua.indexOf("Chrome")>=0){					
+				if(e.originalEvent) e = e.originalEvent;
+				if(e.dataTransfer){
+					var b = e.dataTransfer.effectAllowed;
+					e.dataTransfer.dropEffect = ('move' === b || 'linkMove' === b) ? 'move' : 'copy';
+				}
+			}
+		}catch(err){}
+		return false; 
+	};
+	holder.ondragend = function(){ _getid('divopen').className = '';return false; };
+	holder.ondrop = function (e){
+		_getid('divopen').className = '';
+		e.preventDefault();				
+		handleFileSelect(e.dataTransfer.files);
+		return false;
+	};
+
+	var a=_getid('fileload1');
+	a.onchange=function(e){
+		if(!e || !e.target){
+			alert("不支持此浏览器。");
+			return;
+		}
+		handleFileSelect(e.target.files);	
+	}
+	a.setAttribute("accept",".swf");
+	
+	var a=_getid('fileload2');
+	a.onchange=function(e){
+		if(!e || !e.target){
+			alert("不支持此浏览器。");
+			return;
+		}
+		var files=e.target.files;
+		if(!files || files.length==0) return;
+		if(getextension(files[0].name)!='exe'){
+			alert('您只能选择1个EXE文件。');
+			this.value='';
+			return;
+		}
+		projectorblob2=files[0];
+		_getid('btn_remove').disabled=false;
+		_getid('projector').disabled=true;		
+	}
+	a.setAttribute("accept",".exe");
+
+	var a=_getid('btn_remove');
+	if(a){
+		a.onclick=function(){
+			projectorblob2='';			
+			this.disabled=true;
+			_getid('fileload2').value='';
+			_getid('projector').disabled=false;
+		}
+	}
+	var a=_getid('projector');
+	a.onchange=function(){
+		if(this.value){
+			_getid('pdownurl').href="projector/"+this.value;
+			_getid('pdownurl').title=this.value;
+		}
+	}
+	a.onchange();
+}
+init_load();
+</script>
+
+</table>
+
+<table align=center	><tr>
+<td><span id="bottomtitle">ⓒ 2022 无限制的SWF、Flash转EXE工具 <a href="https://pdfrecover.herokuapp.com/swftoexe/">源码</span>
+</table>
+
+<br>
+<script>
+function _getfrmdoc(ifrm){
+	return (ifrm.contentWindow) ? ifrm.contentWindow : (ifrm.contentDocument.document) ? ifrm.contentDocument.document : ifrm.contentDocument;
+}
+var saverinited,gfids,gfidsName;
+function proc_saver(filename, bloburl, size, mimeType){
+	function resize2(){
+		resize();
+		setTimeout(function(){
+			resize();
+		},500);
+	}
+	if(!saverinited){
+		saverinited=true;
+		if (window.addEventListener){
+			window.addEventListener("resize", resize, false);
+		}else if (window.attachEvent){
+			window.attachEvent("onresize", resize);
+		}
+	}
+	
+	var arr=[];
+	arr.push({'filename':filename, 'bloburl':bloburl, 'size':size, 'mimeType':mimeType});
+
+	var obj=_getid('saver');
+	if(!obj){
+		_getid('savediv').innerHTML='<iframe id="saver" solid black;" src="" frameborder=0 marginwidth=0 marginheight=0 leftmargin=0 topmargin=0 scrolling="no"></iframe>';
+		obj=_getid('saver');
+	}
+	var ifrm=_getfrmdoc(obj);
+	if(ifrm){
+		var w=800;
+		var h=530;
+		if(ifrm.proc_additem){
+			_getid('savediv').style.display='';resize2();
+			ifrm.proc_additem(arr,true,gd_userId,gfids,gfidsName);
+		}else{
+			obj.style.width=w+'px';
+			obj.style.height=h+'px';
+			_getid('savediv').style.display='';resize2();
+			ifrm.location.replace('save_to_drive.php?twidth='+w+'&theight='+h);
+			var timer=setInterval(function(){
+				if(ifrm.proc_additem){
+					clearInterval(timer);
+					ifrm.proc_additem(arr,true,gd_userId,gfids,gfidsName);
+				}
+			},300);
+		}
+	}
+}
+function proc_saver_close(){
+	_getid('savediv').style.display='none';
+}
+</script>
+
+<div id="savediv"></div>
+<iframe id="gviewer" src="" class="shadow" frameborder=0 allowfullscreen="true"></iframe>
+</body>
+</html>
