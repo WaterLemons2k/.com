@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>排列天津市新冠感染人数</title>
+
+<script>
+function GetNumber() {
+    var TextValue = document.getElementById("text").value;
+    var Tianjin = TextValue.match(/结果呈阳性/ig)
+    var Heping = TextValue.match(/居住于天津市和平区/ig);
+    var Hedong = TextValue.match(/居住于天津市河东区/ig);
+    var Hexi = TextValue.match(/居住于天津市河西区/ig);
+    var Nankai = TextValue.match(/居住于天津市南开区/ig);
+    var Hebei = TextValue.match(/居住于天津市河北区/ig);
+    var Hongqiao = TextValue.match(/居住于天津市红桥区/ig)
+    var Dongli = TextValue.match(/居住于天津市东丽区/ig);
+    var Xiqing = TextValue.match(/居住于天津市西青区/ig);
+    var Jinnan = TextValue.match(/居住于天津市津南区/ig);
+    var Beichen = TextValue.match(/居住于天津市北辰区/ig);
+    var Wuqing = TextValue.match(/居住于天津市武清区/ig);
+    var Baodi = TextValue.match(/居住于天津市宝坻区/ig);
+    var Binhai = TextValue.match(/居住于天津市滨海新区/ig);
+    var Ninghe = TextValue.match(/居住于天津市宁河区/ig);
+    var Jinghai = TextValue.match(/居住于天津市静海区/ig);
+    var Jizhou = TextValue.match(/居住于天津市蓟州区/ig);
+    document.getElementById('table').innerText="天津市新增" + (Tianjin || []).length + "人 \n 和平区新增" + (Heping || []).length + "人 \n 河东区新增" + (Hedong || []).length + "人 \n 河西区新增" + (Hexi || []).length + "人 \n 南开区新增" + (Nankai || []).length + "人 \n 河北区新增" + (Hebei || []).length + "人 \n 红桥区新增" + (Hongqiao || []).length + "人 \n 东丽区新增" + (Dongli || []).length + "人 \n 西青区新增" + (Xiqing || []).length + "人 \n 津南区新增" + (Jinnan || []).length + "人 \n 北辰区新增" + (Beichen || []).length + "人 \n 武清区新增" + (Wuqing || []).length + "人 \n 宝坻区新增" + (Baodi || []).length + "人 \n 滨海新区新增" + (Binhai || []).length + "人 \n 宁河区新增" + (Ninghe || []).length + "人 \n 静海区新增" + (Jinghai || []).length + "人 \n 蓟州区新增" + (Jizhou || []).length + "人";
+}
+</script>
+
+</head>
+<body>
+    <span>请将<a href="http://baidu.com/s?wd=天津新增本土阳性感染者详情">天津新增本土阳性感染者详情</a>复制到输入框，然后点击确定</span><br><input id="text">
+    <button onclick="GetNumber()">确定</button><br>
+    <table id="table"></table><br>
+</body>
