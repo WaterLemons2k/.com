@@ -1,28 +1,20 @@
-<!--From: https://codingartistweb.com/2021/05/flip-a-coin-html-css-javascript/-->
+<!--Source:https://codingartistweb.com/2021/05/flip-a-coin-html-css-javascript/-->
 <!DOCTYPE html>
 <html lang="zh-cn">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>掷硬币</title>
-    <style>
-    .selectCoin {
-        width: 145px;
-        padding: 5px 0;
-    
-    }
-    .coin{
-        height: 150px;
-        position: relative;
-        -webkit-transform-style: preserve-3d;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>掷硬币</title>
+<style>
+    .coin{ 
+        height: 155px;
                 transform-style: preserve-3d;
     }
     .coin img{
-        width: 145px;
+        width: 150px;
     }
     .head,.tail{
         position: absolute;
-        -webkit-backface-visibility: hidden;
                 backface-visibility: hidden;
     }
     .tail{
@@ -44,76 +36,58 @@
             transform: rotateX(2160deg);
         }
     }
-    button{
-        width: 145px;
-        padding: 10px 0;
-        border: 2.5px solid #424ae0;
-        cursor: pointer;
-        background-color: #424ae0;
-        color: #ffffff;
-    }
-    #flip-button:disabled{
-        background-color: #ffffff;
-        color: #101020;
-    }
-    </style>
+</style>
 </head>
 <body>
-    <select class="selectCoin" id="selectCoin" onchange=changeCoin()>
-        <option value="1yuan">1元硬币</option>
-        <option value="5jiao">5角硬币</option>
-        <option value="1jiao">1角硬币</option>
-    </select>
-    <div class="coin" id="coin">
-        <img class="head" id="head">
-        <img class="tail" id="tail">
-    </div>
-    <button id="flip-button">掷硬币</button>
-
-    <script>
-let coin = document.querySelector(".coin");
-let flipBtn = document.querySelector("#flip-button");
-
-flipBtn.addEventListener("click", () => {
-    let i = Math.floor(Math.random() * 2);
-    coin.style.animation = "none";
-    if(i){
-        setTimeout(function(){
-            coin.style.animation = "spin-head 3s forwards";
-        }, 100);
+<div class="coin" id="coin">
+    <img class="head" id="head">
+    <img class="tail" id="tail">
+</div>
+<select class="select" id="select" onchange=changeCoin();>
+<option value="1yuan">1元硬币</option>
+<option value="5jiao">5角硬币</option>
+<option value="1jiao">1角硬币</option>
+</select>
+<button id="button" onclick="flipCoin();">掷硬币</button>
+<script>
+function changeCoin(){ //创建更改硬币函数
+    var select = document.getElementById("select").value; //select为选择值
+    var head = document.getElementById("head"); //head为硬币正面
+    var tail = document.getElementById("tail"); //tail为硬币背面
+    if (select == "1yuan") { //如果选择是1元
+        head.src="1yuan.webp"; //正面为1元
+        tail.src="1yuan_tail.webp"; //背面为1元
+    } else { //否则
+        if (select == "5jiao") { //如果选择是5角
+        head.src="5jiao.webp"; //正面为5角
+        tail.src="5jiao_tail.webp"; //背面为5角
+    } else { //否则选择为1角
+        head.src="1jiao.webp"; //正面为1角
+        tail.src="1jiao_tail.webp"; //背面为1角
     }
-    else{
-        setTimeout(function(){
-            coin.style.animation = "spin-tail 3s forwards";
-        }, 100);
-    }
-    disableButton();
-});
-function disableButton(){
-    flipBtn.disabled = true;
-    setTimeout(function(){
-        flipBtn.disabled = false;
-    },3000);
-}
-
-function changeCoin(){
-    var select = document.getElementById("selectCoin").value;
-    var head = document.getElementById("head");
-    var tail = document.getElementById("tail");
-    if(select == "1yuan") {
-        head.src="1yuan.webp";
-        tail.src="1yuan_tail.webp";
-    }
-    if (select == "5jiao") {
-        head.src="5jiao.webp";
-        tail.src="5jiao_tail.webp";
-    }
-    if (select == "1jiao") {
-        head.src="1jiao.webp";
-        tail.src="1jiao_tail.webp";
     }
 }
-changeCoin();
-    </script>
-</body>
+changeCoin(); //运行更改硬币
+
+function flipCoin() { //创建翻转硬币函数
+    let coin = document.querySelector(".coin"); //coin为css中coin
+    let Button = document.querySelector("#button"); //Button为按钮
+    let i = Math.floor(Math.random() * 2); //i为随机数
+    coin.style.animation = "none"; //清空硬币主题
+    if(i){ //如果i
+        setTimeout(function(){ //设置时间延迟
+            coin.style.animation = "spin-head 3s forwards"; //正面翻转3秒
+        }, 100); //100毫秒
+    }
+    else{ //否则
+        setTimeout(function(){ //设置时间延迟
+            coin.style.animation = "spin-tail 3s forwards"; //反面翻转3秒
+        }, 100); //100毫秒
+    }
+    Button.disabled = true; //禁用按钮
+    setTimeout(function(){ //设置时间延迟
+        Button.disabled = false; //启用按钮
+    },3000); //3秒
+};
+</script>
 </html>
