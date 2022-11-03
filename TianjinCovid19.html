@@ -6,6 +6,7 @@
 	<title>排列天津市新冠感染人数(已弃用)</title>
     <script>
     function GetNumber() {
+    event.preventDefault(); //禁止form自动刷新
     var Text = document.getElementById("Covid19Text").value; //获取Covid19Text的值 
     var Table = document.getElementById("table"); //获取Table
     Table.innerText=""; //清空table
@@ -49,7 +50,7 @@
     </script>
 </head>
 <body>
-    <form onsubmit="GetNumber();return false;"> <!--onsubmit执行JS return false禁止自动刷新-->
+    <form onsubmit="GetNumber();"> <!--onsubmit执行JS-->
     <strong>此网页已弃用!</strong>
     <lable for="text">请将<a href="http://baidu.com/s?wd=天津新增本土阳性感染者详情">天津新增本土阳性感染者详情</a>输入到输入框，然后点击提交或按回车</lable><br>
     <input id="Covid19Text">

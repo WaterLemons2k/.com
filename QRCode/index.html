@@ -1,0 +1,41 @@
+<!--From: https://github.com/ericwang2006/docker_ttnode/blob/master/qrgen.htm-->
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<script type="text/javascript" src="qrcode.min.js" >//引入QRCode.js</script>
+	</head>
+	<body>
+	    <!--默认不显示form，只在没有二维码时显示-->
+		<form id="form" style="display:none" onsubmit="to()">
+		    <input id="input" placeholder="输入内容">
+            <input type="submit">
+	    </form>
+	    <div id="img"></div>
+	    <script type="text/javascript">
+		    var str=window.location.search.substring(1) //str为?后字符串
+	        document.title=str //标题为str
+		
+	        var qrcode = new QRCode(document.getElementById("img"), { //二维码显示到img
+		        text: str, //文字为str
+		        width: 177, //宽度为177
+		        height: 177, //高度为177
+		        colorDark : "#000000",
+		        colorLight : "#ffffff",
+		        correctLevel : QRCode.CorrectLevel.H
+	        });
+
+	        if (document.getElementById('img').getAttribute('title') == null) { //如果找不到img的title(没有?后字符串)
+		        document.title="二维码生成器" //更改标题
+		        document.getElementById("form").style.display=""; //显示form
+		        document.getElementById("img").style.display="none"; //不显示img
+	        }
+
+	        function to() { //创建跳转(to)函数
+		        event.preventDefault(); //禁止form自动刷新
+		        window.location.href= window.location.origin + window.location.pathname + "?" + document.getElementById('form').input.value //跳转网址设为域名+路径+?+form输入的值
+	        }
+	    </script>
+	</body>
+</html>
+
