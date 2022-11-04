@@ -7,7 +7,7 @@
 		<script type="text/javascript" src="qrcode.min.js" >//引入QRCode.js</script>
 	</head>
 	<body>
-	    <!--默认不显示form，只在没有二维码时显示-->
+	    <!--默认不显示form，只在没有?后字符串时显示-->
 		<form id="form" style="display:none" onsubmit="to() //提交时运行跳转函数">
 		    <input id="input">
             <input type="submit">
@@ -16,9 +16,9 @@
 	    <script type="text/javascript">
 		    var str=window.location.href.split("?") //str为?前后路径，[0]为前，[1]为后
 	        document.title=str[1] //标题为?后
-	        var qrcode = new QRCode(document.getElementById("img"), str[1]); //?后生成二维码并显示到img
+	        var qrcode = new QRCode(document.getElementById("img"), str[1]); //?后字符串生成二维码并显示到img
 
-	        if (document.getElementById('img').getAttribute('title') == null) { //如果找不到img的title(没有?后字符串)
+	        if (str[1] == null) { //如果没有?后字符串
 				document.title= //清空标题
 		        document.getElementById("form").style.display=""; //显示form
 	        }
