@@ -1,5 +1,5 @@
 <!--From: https://github.com/ericwang2006/docker_ttnode/blob/master/qrgen.htm -->
-<!--Example: index.html?foo -->
+<!--Example: index.html?QRCode -->
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,9 +10,12 @@
 	<body>
 	    <div id="qrcode"></div>
 	    <script type="text/javascript">
-		    var str=window.location.href.split("?")[1] //str为?后路径
-	        document.title=str //标题为str
-	        new QRCode(document.getElementById("qrcode"), str); //str生成二维码并显示到qrcode
+	        document.title=window.location.href.split("?")[1] //标题为?后路径
+	        new QRCode(document.getElementById("qrcode"), window.location.href.split("?")[1]); //?后路径生成二维码并显示到qrcode
+
+			if (window.location.href.split("?")[1] == null) { //如果?后面没有路径
+				document.getElementById("qrcode").innerHTML = `<a href="?QRCode">QRCode</a>` //qrcode显示示例链接
+			}
 	    </script>
 	</body>
 </html>
