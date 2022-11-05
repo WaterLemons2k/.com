@@ -8,10 +8,10 @@
 		<script type="text/javascript" src="qrcode.min.js">//引入QRCode.js(https://github.com/davidshimjs/qrcodejs)</script>
 	</head>
 	<body>
-	    <div id="qrcode"></div>
+	    <div id="qrcode"></div><a href="?QRCode">?QRCode</a>
 	    <script type="text/javascript">
-			document.title = window.location.search.substring(1) //标题为?后路径
-	        new QRCode(document.getElementById("qrcode"), window.location.search.substring(1)); //?后路径生成二维码并显示到qrcode
+			document.title = window.location.search.substring(1) //标题为?后参数
+	        new QRCode(document.getElementById("qrcode"), window.location.search.substring(1)); //?后参数生成二维码并显示到qrcode
 	    </script>
 	</body>
 </html>
