@@ -10,7 +10,7 @@
 	<body>
 	    <div id="qrcode"></div>
 	    <script type="text/javascript">
-			var q = document.title=window.location.href.split("?")[1] //q设为?后路径
+			var q = window.location.search.substring(1) //q为?后路径
 	        document.title=q //标题为q
 	        new QRCode(document.getElementById("qrcode"), q); //q生成二维码并显示到qrcode
 	    </script>
