@@ -10,12 +10,9 @@
 	<body>
 	    <div id="qrcode"></div>
 	    <script type="text/javascript">
-	        document.title=window.location.href.split("?")[1] //标题为?后路径
-	        new QRCode(document.getElementById("qrcode"), window.location.href.split("?")[1]); //?后路径生成二维码并显示到qrcode
-
-			if (window.location.href.split("?")[1] == null) { //如果?后面没有路径
-				document.getElementById("qrcode").innerHTML = `<a href="?QRCode">QRCode</a>` //qrcode显示示例链接
-			}
+			var q = document.title=window.location.href.split("?")[1] //q设为?后路径
+	        document.title=q //标题为q
+	        new QRCode(document.getElementById("qrcode"), window.location.href.split("?")[1]); //q生成二维码并显示到qrcode
 	    </script>
 	</body>
 </html>
