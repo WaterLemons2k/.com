@@ -1,17 +1,15 @@
-<!--From: https://github.com/ericwang2006/docker_ttnode/blob/master/qrgen.htm -->
+<!--HTML From: https://github.com/ericwang2006/docker_ttnode/blob/master/qrgen.htm -->
+<!--JS From: https://github.com/davidshimjs/qrcodejs -->
 <!--Example: index.html?QRCode -->
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<link rel="icon" href="favicon.ico">
-		<script type="text/javascript" src="qrcode.min.js">//引入QRCode.js(https://github.com/davidshimjs/qrcodejs)</script>
-	</head>
 	<body>
-	    <div id="qrcode"></div>
-	    <script type="text/javascript">
-			document.title = window.location.search.substring(1) //标题为?后参数
-	        new QRCode(document.getElementById("qrcode"), window.location.search.substring(1)); //?后参数生成二维码并显示到qrcode
-	    </script>
+		<script src="qrcode.min.js">//引入QRCode.js</script>
+		<script>
+			document.title=window.location.search.substr(1) //标题为?后参数
+		    var div=document.createElement('div'); //创建div
+			new QRCode(div,document.title); //div显示标题生成的二维码
+			document.body.appendChild(div); //body显示div
+		</script>
 	</body>
 </html>
