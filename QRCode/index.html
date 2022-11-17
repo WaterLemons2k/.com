@@ -4,12 +4,11 @@
 <!DOCTYPE html>
 <html>
 	<body>
+		<div id="qrcode"></div>
 		<script src="qrcode.min.js">//引入QRCode.js</script>
 		<script>
 			document.title=window.location.search.substr(1) //标题为?后参数
-		    var div=document.createElement('div'); //创建div
-			new QRCode(div,document.title); //div显示标题生成的二维码
-			document.body.appendChild(div); //body显示div
+			new QRCode(document.getElementById("qrcode"),document.title); //qrcode显示标题生成的二维码
 		</script>
 	</body>
 </html>
