@@ -1,0 +1,308 @@
+<!-- From: https://onemanager-php.vercel.app/A1/snake.htm -->
+<html>
+    <head>
+        <title>贪吃蛇</title>
+    </head>
+    <body>
+        <table id="score" border="0">
+        </table>
+        <canvas id="a1">Your browser is not support canvas.</canvas>
+        <script>
+            var scoreTable = document.getElementById("score");
+            scoreTable.style.width = document.body.clientWidth;
+            var score;
+            displayScores();
+            var canvas = document.getElementById("a1");
+            var ctx = canvas.getContext("2d");
+            var EdgeLen = document.body.clientHeight - scoreTable.offsetHeight;
+            if (EdgeLen > document.body.clientWidth) EdgeLen = document.body.clientWidth;
+            canvas.height = EdgeLen;//500;
+            canvas.width = EdgeLen;
+            scoreTable.style.width = canvas.width;
+            var box = EdgeLen / 20; // 方块大小
+            var X = canvas.width/box;
+            var Y = canvas.height/box;
+            drawBackground();
+            var food = new Object();
+            var snake = new Object();
+            var moveSpeed;
+            var main;
+            var snakeMove;
+            var startDescription = "选择等级，然后按\n\"回车\" 或 \"空格\"\n开始\n\n	网页来自：https://onemanager-php.vercel.app/A1/snake.htm";
+                ctx.fillStyle = "blue";
+                ctx.font = '100px sans-serif';
+                writetext("贪吃蛇", canvas.width/2, canvas.height*1/3, 1);
+                ctx.fillStyle = "black";
+                ctx.font = '20px sans-serif';
+                writetext(startDescription, canvas.width/2, 100+canvas.height/2, 1);
+            function newGame() {
+                //let levels = document.getElementsByName("level");
+                let level;
+                //for (let t in levels) {
+                //    if (levels[t].checked) level = levels[t].value;
+                //}
+                for (let i=1; i<=10; i++) {
+                    let levelRadio = document.getElementById("level_"+i);
+                    if (levelRadio.checked) level = levelRadio.value;
+                    levelRadio.disabled = 1;
+                }
+                //document.getElementById("startButton").style.display = 'none';
+                //document.getElementById("label_now").style.display = '';
+                document.getElementById("NowScore").innerText = 0;
+                snake.direct = 'down';
+                snake.body = new Array();
+                snake.body.push({'x': Math.floor(X/2), 'y':0});
+                moveSpeed = level;
+                setFood();
+                main1();
+                snakeMove1();
+            }
+            function displayScores() {
+                scoreTable.innerHTML = '';
+                let tr = document.createElement('tr');
+                tr.align = 'right';
+                scoreTable.appendChild(tr);
+                let td;
+                td = document.createElement('td');
+                td.innerHTML = '等级:';
+                tr.appendChild(td);
+                for (let i=1; i<=10; i++) {
+                    td = document.createElement('td');
+                    //td.innerText = i;
+                    td.innerHTML = '<label><input id="level_' + i + '" type="radio" name="level" value="' + i + '"' + (i==5?' checked':'') + '>' + i + '</label>';
+                    tr.appendChild(td);
+                }
+                //td = document.createElement('td');
+                //td.innerText = 'Now';
+                //td.innerHTML = '<input id="startButton" type="button" name="start" value="Start" onclick="newGame();"><div id="label_now" style="display: none;">Now</div>';
+                tr.appendChild(td);
+
+                tr = document.createElement('tr');
+                tr.align = 'right';
+                scoreTable.appendChild(tr);
+                td = document.createElement('td');
+                td.id = 'NowScore';
+                td.innerHTML = '高分:';
+                tr.appendChild(td);
+                score = JSON.parse(localStorage.getItem("score"));
+                if (score==null) {
+                    score = new Object();
+                    for (let i=1; i<=10; i++) {
+                        score[i] = '';
+                    }
+                }
+                for (let i=1; i<=10; i++) {
+                    td = document.createElement('td');
+                    td.id = 'score_' + i;
+                    td.innerText = score[i];
+                    tr.appendChild(td);
+                }
+                //td = document.createElement('td');
+                //td.id = 'NowScore';
+                //td.innerText = '0';
+                tr.appendChild(td);
+            }
+            function main1() {
+                main = setInterval(function(){
+                    drawBackground();
+                    drawFood();
+                    drawSnake();
+                }, 10);
+            }
+            function snakeMove1() {
+                snakeMove = setInterval(function(){
+                    let tmp = new Object();
+                    if (snake.direct=='down') {
+                        tmp.x = snake.body[0].x;
+                        tmp.y = snake.body[0].y + 1;
+                    }
+                    if (snake.direct=='up') {
+                        tmp.x = snake.body[0].x;
+                        tmp.y = snake.body[0].y - 1;
+                    }
+                    if (snake.direct=='left') {
+                        tmp.x = snake.body[0].x - 1;
+                        tmp.y = snake.body[0].y;
+                    }
+                    if (snake.direct=='right') {
+                        tmp.x = snake.body[0].x + 1;
+                        tmp.y = snake.body[0].y;
+                    }
+                    if (!canMove(tmp)) {
+                        clearInterval(snakeMove);
+                        clearInterval(main);
+                        //alert("游戏结束\n\n等级: " + moveSpeed + "\n分数: " + (snake.body.length-1));
+                        ctx.fillStyle = "pink";
+                        ctx.font = '70px sans-serif';
+                        writetext("游戏结束\n分数: " + (snake.body.length-1), canvas.width/2, canvas.height*1/4, 1);
+                        ctx.font = '40px sans-serif';
+                        writetext("等级: " + moveSpeed, canvas.width/2, 70+50/2+canvas.height*1/4, 1);
+                        ctx.fillStyle = "black";
+                        ctx.font = '20px sans-serif';
+                        writetext(startDescription, canvas.width/2, 100+canvas.height/2, 1);
+                        for (let i=1; i<=10; i++) {
+                            let levelRadio = document.getElementById("level_"+i);
+                            levelRadio.disabled = false;
+                        }
+                        snake = new Object();
+                        //document.getElementById("startButton").value = 'reStart';
+                        //document.getElementById("startButton").style.display = '';
+                        //document.getElementById("label_now").style.display = 'none';
+                        //document.getElementById("NowScore").innerText = 0;
+                    } else {
+                        snake.body.unshift(tmp);
+                        if (tmp.x==food.x && tmp.y==food.y) {
+                            setFood();
+                            document.getElementById("NowScore").innerText = snake.body.length-1;
+                            if (score[moveSpeed]<snake.body.length-1) {
+                                score[moveSpeed] = snake.body.length-1;
+                                document.getElementById("score_"+moveSpeed).innerText = score[moveSpeed];
+                                localStorage.setItem('score', JSON.stringify(score));
+                            }
+                        } else {
+                            snake.body.pop();
+                        }
+                    }
+                }, 1000/moveSpeed);
+            }
+            function canMove(to) {
+                if (to.x<0) return false;
+                if (to.x==X) return false;
+                if (to.y<0) return false;
+                if (to.y==Y) return false;
+                for (let pices in snake.body) {
+                    if (snake.body[pices].x==to.x && snake.body[pices].y==to.y) return false;
+                }
+                return true;
+            }
+            window.addEventListener('keydown', function(e){
+                //console.log(e);
+                if (e.key=='Enter' || e.code=='Space') if (!('direct' in snake)) newGame();
+                if (e.key=='a' || e.key=='A' || e.key=='ArrowLeft') if ('direct' in snake) if (snake.direct!='right') if (canMove({'x': snake.body[0].x-1, 'y': snake.body[0].y})) snake.direct = 'left';
+                if (e.key=='s' || e.key=='S' || e.key=='ArrowDown') if ('direct' in snake) if (snake.direct!='up') if (canMove({'x': snake.body[0].x, 'y': snake.body[0].y+1})) snake.direct = 'down';
+                if (e.key=='d' || e.key=='D' || e.key=='ArrowRight') if ('direct' in snake) if (snake.direct!='left') if (canMove({'x': snake.body[0].x+1, 'y': snake.body[0].y})) snake.direct = 'right';
+                if (e.key=='w' || e.key=='W' || e.key=='ArrowUp') if ('direct' in snake) if (snake.direct!='down') if (canMove({'x': snake.body[0].x, 'y': snake.body[0].y-1})) snake.direct = 'up';
+                /*if (e.code=='Space') if (snakeMove!=0) {
+                    clearInterval(snakeMove);
+                    snakeMove = 0;
+                } else {
+                    snakeMove1();
+                }*/
+            });
+            function setFood() {
+                //food.x = Math.floor(Math.random()*100%X);
+                //food.y = Math.floor(Math.random()*100%Y);
+                food = new Object();
+                let tmp = new Array();
+                for (let i=0; i<X; i++) for (let j=0; j<Y; j++) if (canMove({'x': i, 'y': j})) tmp.push({'x': i, 'y': j});
+                let num = Math.floor(Math.random()*1000) % (tmp.length);
+                food = tmp[num];
+            }
+            function drawBackground() {
+                // 重画背景，目前是直接清空，然后画外框
+                canvas.width = canvas.width;
+                ctx.strokeStyle = "black";
+                ctx.strokeRect(0, 0, canvas.width, canvas.height);
+            }
+            function drawFood() {
+                //console.log(food);
+                ctx.fillStyle = "red";
+                ctx.strokeStyle = "red";
+                ctx.beginPath();
+                ctx.arc(food.x*box+box/2, food.y*box+box/2, box/2-1, 0, 2*Math.PI);
+                ctx.fill();
+                ctx.stroke();
+                //ctx.fillRect(food.x*box+1, food.y*box+1, box-2, box-2);
+            }
+            function drawSnake() {
+                ctx.fillStyle = "blue";
+                for (let pices=0; pices<snake.body.length; pices++) {
+                //for (let pices in snake.body) {
+                    //console.log(pices);
+                    if (pices==0) {
+                        // 头
+                        let mAngle = Math.abs((new Date().getTime()/10) % 90 - 45);
+                        let sAngle;
+                        if (snake.direct=='down') sAngle = Math.PI*(3/4-mAngle/180);
+                        if (snake.direct=='up') sAngle = -Math.PI*(1/4+mAngle/180);
+                        if (snake.direct=='left') sAngle = Math.PI*(5/4-mAngle/180);
+                        if (snake.direct=='right') sAngle = Math.PI*(1/4-mAngle/180);
+                        ctx.beginPath();
+                        ctx.moveTo(snake.body[pices].x*box+box/2, snake.body[pices].y*box+box/2);
+                        ctx.arc(snake.body[pices].x*box+box/2, snake.body[pices].y*box+box/2, box/2-1, sAngle, sAngle+Math.PI*(3/2+mAngle/90));
+                        ctx.closePath();
+                        ctx.fill();
+                    } else {
+                        if (snake.body[pices-1].x===snake.body[pices].x) {
+                            if (snake.body[pices-1].y>snake.body[pices].y) {
+                                ctx.fillRect(snake.body[pices].x*box+box*2/10, snake.body[pices].y*box+box/2, box-box*4/10, box/2-box/10);
+                            } else {
+                                ctx.fillRect(snake.body[pices].x*box+box*2/10, snake.body[pices].y*box+box/10, box-box*4/10, box/2);
+                            }
+                        }
+                        if (snake.body[pices-1].y===snake.body[pices].y) {
+                            if (snake.body[pices-1].x>snake.body[pices].x) {
+                                ctx.fillRect(snake.body[pices].x*box+box/2, snake.body[pices].y*box+box*2/10, box/2-box/10, box-box*4/10);
+                            } else {
+                                ctx.fillRect(snake.body[pices].x*box+box/10, snake.body[pices].y*box+box*2/10, box/2, box-box*4/10);
+                            }
+                        }
+                        if ((pices+1) in snake.body) {
+                            if (snake.body[pices+1].x===snake.body[pices].x) {
+                                if (snake.body[pices+1].y>snake.body[pices].y) {
+                                    ctx.fillRect(snake.body[pices].x*box+box*2/10, snake.body[pices].y*box+box/2, box-box*4/10, box/2-box/10);
+                                } else {
+                                    ctx.fillRect(snake.body[pices].x*box+box*2/10, snake.body[pices].y*box+box/10, box-box*4/10, box/2);
+                                }
+                                //ctx.fillRect(snake.body[pices].x*box+3, snake.body[pices].y*box, box-6, box);
+                            } else {
+                                if (snake.body[pices+1].x>snake.body[pices].x) {
+                                    ctx.fillRect(snake.body[pices].x*box+box/2, snake.body[pices].y*box+box*2/10, box/2-box/10, box-box*4/10);
+                                } else {
+                                    ctx.fillRect(snake.body[pices].x*box+box/10, snake.body[pices].y*box+box*2/10, box/2, box-box*4/10);
+                                }
+                                //let x0, y0, x1, y1;
+                                //if (snake.body[pices+1].x>snake.body[pices].x) 
+                                //ctx.fillRect(snake.body[pices].x*box+3, snake.body[pices].y*box+1, box-6, box-2);
+                            }
+                        } else {
+                            ctx.beginPath();
+                            ctx.arc(snake.body[pices].x*box+box/2, snake.body[pices].y*box+box/2, box*3/10, 0, Math.PI*2);
+                            ctx.fill();
+                        }
+                    }
+                }
+            }
+            function writetext(text, x, y, middle) {
+                //console.log(text);
+                let text_h = ctx.font;
+                text_h = text_h.substr(0, text_h.indexOf('px'));
+                if (text_h.lastIndexOf(' ')>0) text_h = text_h.substr(text_h.lastIndexOf(' ')+1);
+                text_h = Number(text_h);
+                //let text_w = ctx.measureText(text).width;
+                let text_w = 0;
+                let arr = text.split("\n");
+                //console.log(arr.length);
+                text_h *= arr.length;
+                for (let str in arr) {
+                    let str_draw_width = ctx.measureText(arr[str]).width;
+                    //console.log(arr[str]);
+                    if (text_w<str_draw_width) text_w = str_draw_width;
+                }
+                //console.log(text_w);
+                if (middle!=null) {
+                    x = x - text_w/2;
+                    y = y + text_h/2;
+                }
+                if (x+text_w>canvas.width) x = x - text_w;
+                if (x<0) x = 0;
+                if (y-text_h<0) y = text_h;
+                let i = arr.length-1;
+                for (let str in arr) {
+                    ctx.fillText(arr[str], x+(text_w-ctx.measureText(arr[str]).width)/2, y-text_h*i/arr.length);
+                    i--;
+                }
+            }
+        </script>
+    </body>
+</html>
