@@ -1,21 +1,49 @@
 <!doctype html>
 <html>
     <head>
-    <meta charset="utf-8">
-    <link rel="icon" href="favicon.ico">
-    <title>计数器</title>
+        <link rel="icon" href="favicon.ico">
+        <title>计数器</title>
     </head>
     <body>
-    <script>
-    function add() {
-    var number = document.getElementById("number").innerText =parseInt(document.getElementById("number").innerText)+1
-    }
-    function reduce() {
-    var number = document.getElementById("number").innerText =parseInt(document.getElementById("number").innerText)-1
-    }
+        <input type="button" value="-" onclick="reduce()">
+        <input id="number" style="width:145px;" type="number" value="0">
+        <input type="button" value="+" onclick="add()">
+        
+        <script>
+            var number = document.getElementById("number"); //将number设为输入框
+
+            function checkNumberValue() { //创建函数checkNumberValue
+                if (localStorage.getItem('counterNumberValue') == '' || number.value == '') { //如果counterNumberValue或number值为空
+                    number.value = '0' //将number值设为0
+                }
+            }
+
+            number.value = localStorage.getItem('counterNumberValue') //从counterNumberValue获取number值
+            checkNumberValue() //运行函数checkNumberValue
+            document.title = number.value + " - 计数器"  //将标题设为"number值 - 计数器"
+
+            function storageNumberValue() { //创建函数storageNumberValue
+                localStorage.setItem('counterNumberValue', number.value) //将number值保存到counterNumberValue
+                document.title = number.value + " - 计数器"  //将标题设为"number值 - 计数器"
+            }
+
+            function reduce() { //创建函数reduce
+                checkNumberValue() //运行函数checkNumberValue
+                number.value = parseInt(number.value)-1 //number值-1
+                storageNumberValue(); //运行函数storageNumberValue
+            }
+
+            function add() { //创建函数add
+                checkNumberValue() //运行函数checkNumberValue
+                number.value = parseInt(number.value)+1 //number值+1
+                storageNumberValue(); //运行函数storageNumberValue
+            }
+
+            window.addEventListener('keydown', function(e){ //添加监听键盘事项
+                if (e.key == '-' || e.key == '_'){reduce();}; //如果按 - 或 _ 运行 函数reduce
+                if (e.key == '=' || e.key == '+'){add();}; //如果按 = 或 + 运行 函数add
+                if (e.key == 'Enter'){number.focus();}; //如果按回车跳转到输入框
+            });
     </script>
-    <input type="button" value="-" onclick="reduce()">
-    <span contenteditable="true" id="number">0</span> 
-    <input type="button" value="+" onclick="add()">
     </body>
     </html>
