@@ -1,18 +1,14 @@
-<!--HTML From: https://github.com/ericwang2006/docker_ttnode/blob/master/qrgen.htm -->
-<!--JS From: https://github.com/davidshimjs/qrcodejs -->
-<!--Example: index.html?QRCode -->
+<!-- HTML: https://github.com/ericwang2006/docker_ttnode/blob/master/qrgen.htm -->
+<!-- JS: https://github.com/davidshimjs/qrcodejs -->
+<!-- Example: /QRCode/?QRCode -->
 <!DOCTYPE html>
 <html>
 	<body>
 		<div id="qrcode"></div>
-		<script src="qrcode.min.js">//引入QRCode.js</script>
+		<script src="qrcode.min.js"></script>
 		<script>
-			document.title=window.location.search.substr(1) //标题为?后参数
-			if (document.title == '') { //如果没有标题（没有?后参数)
-				document.getElementById("qrcode").innerHTML= "找不到内容，请尝试<a href='?QRCode'>?QRCode</a>"; //向qrcode写入HTML
-				} else {
-					new QRCode(document.getElementById("qrcode"),document.title); //qrcode显示标题生成的二维码
-				}
+		    document.title=window.location.search.substr(1) //标题为?后参数
+			new QRCode(document.getElementById("qrcode"),document.title); //qrcode显示标题生成的二维码
 		</script>
 	</body>
 </html>
