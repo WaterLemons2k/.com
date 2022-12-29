@@ -3,19 +3,19 @@
 	<head>
 		<meta charset="UTF-8">
 		<link rel="icon" href="favicon.ico">
-		<title>时钟</title>
-	<script>
-		function time(){
-			var date=new Date();
-			var h=date.getHours();
-			var m=date.getMinutes();
-			var s=date.getSeconds();
-			document.getElementById("clock").innerHTML="<h1>"+h+":"+m+":"+s+"</h1>"
-		   	} 
-		var showtime = setInterval("time()",1000);
-	</script>
+		<title>时间</title>
+		<script>
+			function Time() { //创建函数 Time()
+				var date=new Date(); //将date 设为 Date()
+				var h=date.getHours(); //h 设为时
+				var m=date.getMinutes(); //m 设为分
+				var s=date.getSeconds(); //s 设为秒
+				document.getElementById("clock").innerHTML= h + ":" + m + ":" + s; //clock 显示 时:分:秒
+				setTimeout('Time()', 1000); //每秒运行函数 Time()
+			}
+		</script>
 	</head>
-	<body>
-		<div id="clock"></div>
+	<body onload="Time()">
+		<h1 id="clock"></h1>
 	</body>
 </html>
