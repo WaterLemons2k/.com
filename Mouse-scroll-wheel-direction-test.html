@@ -1,0 +1,55 @@
+<!-- From: https://www.cnblogs.com/tu-0718/p/11989610.html -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>鼠标滚轮方向测试</title>
+    </head>
+    <body>
+        <div style="background-color:#ffffff;padding:15px;top:30px;left:50%;border:solid;transform:translateX(-50%);position:fixed">
+            <span>方向：</span> <span style="color:#0076e3" id="direction">等待滚动...</span>
+        </div>
+
+        <div style="padding-top:75px;">
+            <h1>鼠标滚轮方向测试</h1>
+            <p>您好，这是一个用于测试鼠标滚轮方向的网页！</p>
+            <p>网页的顶部有一个用于显示方向的方框。</p>
+            <p>如果您还没有滚动鼠标滚轮，方向会显示 “等待滚动...”。</p>
+            <p>现在尝试向上滚动鼠标滚轮，方向会显示 “上”。</p>
+            <p>接着尝试向下滚动鼠标滚轮，方向会显示 “下”。</p>
+            <p>查看控制台以获取更多信息。</p>
+            <p>感谢：<a href="https://www.cnblogs.com/tu-0718/p/11989610.html">JS如何判断鼠标滚轮向上还是向下滚动 - 你不知道的巨蟹 - 博客园</a></p>
+        </div>
+
+        <script>
+            var scrollWheelDirection = function(e) {
+                var e = e || window.event;
+                var direction = document.getElementById("direction");
+                if(e.wheelDelta) {   
+                    if(e.wheelDelta > 0) { //向上滚动鼠标滚轮时
+                        direction.innerHTML = "上";
+                        console.log("Up, e.wheelDelta value is " + e.wheelDelta);
+                    }
+                    if(e.wheelDelta < 0) { //向下滚动鼠标滚轮时
+                        direction.innerHTML = "下";
+                        console.log("Down, e.wheelDelta value is " + e.wheelDelta);
+                    }
+                } else if(e.detail) { //否则为 Firefox
+                    if(e.detail < 0) {   //向上滚动鼠标滚轮时
+                        direction.innerHTML = "上";
+                        console.log("Up, e.detail value is " + e.detail);
+                    }
+                    if(e.detail > 0) {   //向下滚动鼠标滚轮时
+                        direction.innerHTML = "下";
+                        console.log("Down, e.detail value is " + e.detail);
+                    }
+                }
+            }
+
+            window.addEventListener("DOMMouseScroll", scrollWheelDirection); //绑定鼠标滚轮事件 (Firefox)
+            window.addEventListener("wheel", scrollWheelDirection); //绑定鼠标滚轮事件 (标准)
+            window.addEventListener("mousewheel", scrollWheelDirection); //绑定鼠标滚轮事件 (非标准)
+        </script>
+    </body>
+</html>
