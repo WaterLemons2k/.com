@@ -1,10 +1,40 @@
+<!-- From: https://www.w3school.com.cn/css/css_navbar_horizontal.asp -->
 <!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>主页</title>
+        
+        <style>
+            body {
+                background-color: #f7f7f7;
+            }
+
+            ul {
+                list-style-type: none;
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+
+            li {
+                float: left;
+            }
+
+            li a {
+                display: block;
+                color: #292929;
+                padding: 15px;
+                text-decoration: none;
+            }
+
+            li a:hover {
+                background-color: #f1f1f1;
+            }
+        </style>
     </head>
+
     <body>
         <ul>
             <li><a href="counter">计数器</a></li>
@@ -24,8 +54,7 @@
             <li><a href="QRCode">二维码</a></li>
             <li><a href="Snake">贪吃蛇</a></li>
             <li><a href="To">跳转</a></li>
-            <li><a href="To">跳转</a></li>
-            <li><a href="Mouse-scroll-wheel-direction-test">鼠标滚轮方向测试</a></li>
+            <li><a href="Scroll-wheel">滚轮</a></li>
         </ul>
     </body>
 </html>
