@@ -2,8 +2,27 @@
 <html>
 	<body>
 		<script>
-			var i = window.location.search.substr(1);
-			if (i == 1) window.location.href = "http://waterlemons2k.com";
+			switch (window.location.search.substr(1)) { //根据?后参数切换
+				default: //默认
+				case "1": //如果值为 1
+					window.location.href = "http://waterlemons2k.com"; //跳转
+					break; //中断
+				case "2":
+					window.location.href = "http://github.com/WaterLemons2k";
+					break;
+				case "3":
+					window.location.href = "http://alpine.waterlemons2k.com";
+					break;
+				case "4":
+					window.location.href = "http://blog.waterlemons2k.com";
+					break;
+				case "5":
+					window.location.href = "http://file.waterlemons2k.com";
+					break;
+				case "6":
+					window.location.href = "http://wii.waterlemons2k.com";
+					break;
+			}
 		</script>
 	</body>
 </html>
