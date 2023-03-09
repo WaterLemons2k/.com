@@ -7,49 +7,56 @@
         <title>滚轮</title>
     </head>
     <body>
-        <div style="background-color:#fff;position:fixed;width:100%;text-align:center;padding: 15px">
-            <a>方向：</a> <a style="color:#4285f4" id="direction">等待滚动...</a></li>
+        <div style="background-color:#fff;position:fixed;width:100%;text-align:center;padding: 15px;">
+            <a>上：</a>
+            <a style="color:#4285f4" id="up">0</a>
+            <a>下：</a>
+            <a style="color:#4285f4" id="down">0</a>
         </div>
 
-        <div style="padding:30px">
+        <div style="padding:35px">
             <h1>滚轮</h1>
-            <p>您好，这是一个用于测试鼠标滚轮方向的网页！</p>
-            <p>网页的顶部有一个用于显示方向的方框。</p>
-            <p>如果您还没有滚动鼠标滚轮，方向会显示 “等待滚动...”。</p>
-            <p>现在尝试向上滚动鼠标滚轮，方向会显示 “上”。</p>
-            <p>接着尝试向下滚动鼠标滚轮，方向会显示 “下”。</p>
-            <p>查看控制台以获取更多信息。</p>
+            <p>您好，这是一个用于显示鼠标滚轮方向的网页！</p>
+            <p>网页的顶部会显示滚轮朝指定方向滚动的次数。</p>
+            <p>如果您还没有滚动鼠标滚轮，上下都会显示 0。</p>
+            <p>现在尝试向上滚动鼠标滚轮，方向的上会加 1。</p>
+            <p>接着尝试向下滚动鼠标滚轮，方向的下会加 1。</p>
             <p>感谢：<a href="https://www.cnblogs.com/tu-0718/p/11989610.html">JS如何判断鼠标滚轮向上还是向下滚动 - 你不知道的巨蟹 - 博客园</a></p>
         </div>
 
         <script>
-            var scrollWheelDirection = function(e) {
-                var e = e || window.event;
-                var direction = document.getElementById("direction");
+            const up = document.getElementById("up"), down = document.getElementById("down"); // 将常量 up 和 down 分别设为上和下的数值
+            var upCount = 0, downCount = 0, e = e || window.event; // 声明变量 upCount 和 downCount 为 上和下的计数
+
+            const scrollWheelDirection = function(e) {
                 if(e.wheelDelta) {   
-                    if(e.wheelDelta > 0) { //向上滚动鼠标滚轮时
-                        direction.innerHTML = "上";
-                        console.log("Up, e.wheelDelta value is " + e.wheelDelta);
+                    if(e.wheelDelta > 0) { // 向上滚动鼠标滚轮时
+                        ++upCount; // upCount 加 1
+                        up.innerHTML = upCount; // up 的 HTML 设为 upCount
+                        console.log("Up, e.wheelDelta=" + e.wheelDelta);
                     }
                     if(e.wheelDelta < 0) { //向下滚动鼠标滚轮时
-                        direction.innerHTML = "下";
-                        console.log("Down, e.wheelDelta value is " + e.wheelDelta);
+                        ++downCount; // downCount 加 1
+                        down.innerHTML = downCount; // down 的 HTML 设为 downCount
+                        console.log("Down, e.wheelDelta=" + e.wheelDelta);
                     }
-                } else if(e.detail) { //否则为 Firefox
-                    if(e.detail < 0) {   //向上滚动鼠标滚轮时
-                        direction.innerHTML = "上";
-                        console.log("Up, e.detail value is " + e.detail);
+                } else if(e.detail) { // 否则为 Firefox
+                    if(e.detail < 0) {   // 向上滚动鼠标滚轮时
+                        ++upCount; // upCount 加 1
+                        up.innerHTML = upCount; // up 的 HTML 设为 upCount
+                        console.log("Up, e.detail=" + e.detail);
                     }
-                    if(e.detail > 0) {   //向下滚动鼠标滚轮时
-                        direction.innerHTML = "下";
-                        console.log("Down, e.detail value is " + e.detail);
+                    if(e.detail > 0) {   // 向下滚动鼠标滚轮时
+                        ++downCount; // downCount 加 1
+                        down.innerHTML = downCount; // down 的 HTML 设为 downCount
+                        console.log("Down, e.detail=" + e.detail);
                     }
                 }
             }
 
-            window.addEventListener("DOMMouseScroll", scrollWheelDirection); //绑定鼠标滚轮事件 (Firefox)
-            window.addEventListener("wheel", scrollWheelDirection); //绑定鼠标滚轮事件 (标准)
-            window.addEventListener("mousewheel", scrollWheelDirection); //绑定鼠标滚轮事件 (非标准)
+            window.addEventListener("DOMMouseScroll", scrollWheelDirection); // 绑定鼠标滚轮事件 (Firefox)
+            window.addEventListener("wheel", scrollWheelDirection); // 绑定鼠标滚轮事件 (标准)
+            window.addEventListener("mousewheel", scrollWheelDirection); // 绑定鼠标滚轮事件 (非标准)
         </script>
     </body>
 </html>
