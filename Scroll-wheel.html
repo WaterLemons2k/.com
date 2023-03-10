@@ -26,10 +26,13 @@
 
         <script>
             const up = document.getElementById("up"), down = document.getElementById("down"); // 将常量 up 和 down 分别设为上和下的数值
-            var upCount = 0, downCount = 0, e = e || window.event; // 声明变量 upCount 和 downCount 为 上和下的计数
+            var upCount = 0, downCount = 0, e = e || window.event, useDetail = true; // 声明变量 upCount 和 downCount 为 上和下的计数，使用 e.detail
 
             const scrollWheelDirection = function(e) {
-                if(e.wheelDelta) {   
+                if(e.wheelDelta) {
+                    if (useDetail) { // 如果 useDetail 为 true
+                        useDetail = false // 不使用 e.detail
+                    }
                     if(e.wheelDelta > 0) { // 向上滚动鼠标滚轮时
                         ++upCount; // upCount 加 1
                         up.innerHTML = upCount; // up 的 HTML 设为 upCount
@@ -40,7 +43,7 @@
                         down.innerHTML = downCount; // down 的 HTML 设为 downCount
                         console.log("Down, e.wheelDelta=" + e.wheelDelta);
                     }
-                } else if(e.detail) { // 否则为 Firefox
+                } else if(e.detail && useDetail) { // 如果浏览器为 Firefox 并使用 e.detail
                     if(e.detail < 0) {   // 向上滚动鼠标滚轮时
                         ++upCount; // upCount 加 1
                         up.innerHTML = upCount; // up 的 HTML 设为 upCount
