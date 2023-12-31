@@ -1,13 +1,11 @@
-const main = () => {
-  if (location.hostname !== 'waterlemons2k.com' &&
-    location.hostname.startsWith('waterlemons2k')) {
-    location.replace('http://waterlemons2k.com');
-  }
-
-  generateLink();
+if (location.hostname !== 'waterlemons2k.com' &&
+  location.hostname.startsWith('waterlemons2k')) {
+  location.replace('http://waterlemons2k.com');
 }
 
-const generateLink = () => {
+generateLink();
+
+function generateLink() {
   const link = {
     counter: '计数器',
     stopwatch: '秒表',
@@ -24,19 +22,23 @@ const generateLink = () => {
     Coin: '掷硬币',
     QRCode: '二维码',
     Snake: '贪吃蛇',
+    m3u2txt: 'M3U2TXT',
   };
 
   const ul = document.createElement('ul');
 
-  let ulInnerHTML = '';
   for (const [href, content] of Object.entries(link)) {
-    ulInnerHTML += `<li>
-      <a href="${href}">${content}</a>
-    </li>`;
-  }
-  ul.innerHTML = ulInnerHTML;
+    const li = document.createElement('li');
+    const a = document.createElement('a');
 
-  document.body.appendChild(ul);
+    a.href = href;
+    a.textContent = content;
+
+    li.append(a);
+    ul.append(li);
+  }
+
+  document.body.append(ul);
 }
 
 main();
