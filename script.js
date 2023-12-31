@@ -40,5 +40,3 @@ function generateLink() {
 
   document.body.append(ul);
 }
-
-main();
