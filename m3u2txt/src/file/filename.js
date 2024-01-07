@@ -1,5 +1,8 @@
 import getMIMEType from './mime.js';
 
+/**
+ * Represents a filename, including the extension and the MIME type.
+ */
 export default class Filename {
   /**
    * @param {string} filename - The name of the file.
@@ -11,7 +14,7 @@ export default class Filename {
   /**
    * Gets the MIME type of the file based on its extension.
    * 
-   * @returns {string} - The MIME type of the extension.
+   * @returns {string} - The MIME type of the extension. undefined if not found.
    */
   get type() {
     return getMIMEType(this.extension);
